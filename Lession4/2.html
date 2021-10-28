@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Homework</title>
+</head>
+
+<body>
+  <!--
+Обязательное задание.
+
+Необходимо данное задание выполнить в es5 стиле и в es6 стиле.
+Необходимо создать функцию-конструктор/класс для поста в социальной сети.
+Названия: `PostES5` для es5 стиля и `PostES6` для es6 стиля.
+Пост должен хранить:
+1. Автора поста (имени достаточно).
+2. Текст поста.
+3. Дату и время последнего изменения поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Каждому экземпляру объекта должен быть доступен метод `edit`, который будет
+менять текст поста.
+
+---
+
+Необходимо создать функцию-конструктор/класс для закрепленного поста в
+социальной сети.
+Названия: `AttachedPostES5` для es5 стиля и `AttachedPostES6` для es6 стиля.
+Закрепленный пост должен наследоваться от обычного поста.
+Данные автора поста и текст поста необходимо передавать при создании
+экземпляра объекта.
+Закрепленный пост должен иметь свойство `highlighted`, в котором по умолчанию
+будет лежать значение false (это свойство будет обозначать, будет ли наш
+закрепленный пост подсвечен).
+У экземпляров объекта закрепленного поста должен быть метод с названием
+`makeTextHighlighted`, который сделает так, чтобы наш пост стал подсвеченным
+(будет менять свойство `highlighted`).
+
+---
+
+Подсказки:
+1. Задание сложное, советую делать по аналогии с примером на онлайн-занятии.
+2. Обратите внимание что пост хранит "дату и время последнего изменения
+поста", это значит что если пост кто-то изменит (например вызовет какой-то
+метод, который изменит что-то в посте), дата и время последнего изменения
+поста также должна измениться.
+3. Выполняйте все по порядку, не стоит пытаться сделать все сразу, иначе можно
+что-нибудь пропустить.
+4. Если непонятно условие - задайте вопрос.
+-->
+  <script>
+    "use strict";
+
+    function PostES5(name, mesage) {
+      this.name = name;
+      this.mesage = mesage;
+      this.date = new Date();
+    };
+
+    PostES5.prototype.show = function () {
+      console.log(this.name);
+      console.log(this.mesage);
+      console.log(this.date.toLocaleString());
+    };
+
+    PostES5.prototype.edit = function (editMesages) {
+      this.mesage = editMesages;
+      // Симулятор задержки редактирования поста:
+      this.date.setMinutes(this.date.getMinutes() + 3);
+    };
+
+    function AttachedPostES5(name, mesage){
+      PostES5.call(this, name, mesage);
+      this.highlighted = false;
+
+    }
+
+    AttachedPostES5.prototype = Object.create(PostES5.prototype);
+    AttachedPostES5.prototype.constructor = AttachedPostES5;
+
+    PostES5.prototype.show2 = function () {
+      console.log(this.name);
+      console.log(this.mesage); 
+      console.log(this.date.toLocaleString());     
+      console.log(this.highlighted);
+    };
+
+    PostES5.prototype.makeTextHighlighted = function (bool) {
+      this.highlighted = bool;
+    };
+
+
+    let mesage1 = new PostES5('Alex', 'Hello World!');
+    mesage1.show();
+    mesage1.edit('Edit Text');
+    mesage1.show();
+    mesage1.edit('Edit Text2');
+    mesage1.show();
+    let mesage2 = new AttachedPostES5('Alex', 'Hello World!');
+    mesage2.show2();
+    mesage2.makeTextHighlighted(true);
+    mesage2.show2();
+
+
+
+    class postES6 {
+      constructor(name, mesage){
+      this.name = name;
+      this.mesage = mesage;
+      this.date = new Date();
+      };
+
+      show(){
+        console.log(this.name);
+        console.log(this.mesage);
+        console.log(this.date.toLocaleString());
+      };
+
+      edit(editMesages){
+          this.mesage = editMesages;
+        // Симулятор задержки редактирования поста:
+        this.date.setMinutes(this.date.getMinutes() + 3);
+      };
+    };
+
+    class AttachedPostES6 extends postES6{
+      constructor(name, mesage){
+        super(name, mesage);
+        this.highlighted = false;
+      };
+
+      show2(){
+        console.log(this.name);
+        console.log(this.mesage);
+        console.log(this.date.toLocaleString());
+        console.log(this.highlighted);
+      };
+
+      makeTextHighlighted(bool){
+        this.highlighted = bool;
+      }
+    }
+
+
+    let mesage3 = new postES6('Alex', 'Hello World!');
+    mesage3.show();
+    mesage3.edit('Edit Text');
+    mesage3.show();
+    mesage3.edit('Edit Text2');
+    mesage3.show();
+    let mesage4 = new AttachedPostES6('Vlad', 'Hello World! but, im not shure...');
+    mesage4.show2();
+    mesage4.makeTextHighlighted(true);
+    mesage4.show2();
+
+
+  </script>
+</body>
+
+</html>
